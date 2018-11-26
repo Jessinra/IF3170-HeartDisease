@@ -6,9 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
 
-    <style type="text/css">.col-form-label { font-weight: bold; padding-top: 0; }</style>
+    <style type="text/css">
+      .col-form-label { font-weight: bold; padding-top: 0; }
+      .hidden { display: none; }
+    </style>
     <title>Heart Disease Analysis</title>
   </head>
   <body>
@@ -16,7 +20,7 @@
       <div class="row">
     	<h1 class="pl-2">Heart Disease Analysis</h1>
       </div>
-      <form class="mt-4" action="check" method="POST">
+      <form class="mt-4" id="iHeartForms" action="check" method="POST">
     	<div class="form-group row">
     	  <label for="age" class="col-sm-2 col-form-label">Age</label>
     	  <div class="input-group col-sm-10 mb-4">
@@ -239,11 +243,81 @@
     	    <button type="submit" class="btn btn-primary btn-block">Check!</button>
           </div>
           <div class="col-sm-6">
-    	    <button type="reset" class="btn btn-outline-secondary btn-block">Reset</button>
+    	    <button id="reset" type="reset" class="btn btn-outline-secondary btn-block">Reset</button>
           </div>
         </div>
       </form>
+      <div id="result">
+        <div id="result-progress" class="hidden alert alert-primary">
+          <em>Working...</em>
+        </div>
+        <div id="result-success" class="hidden alert alert-success">
+          Our algorithm says: <strong id="result-text">{{result}}</strong>.
+          <br />
+          <small>
+            <strong>Disclaimer:</strong> This is not medical advice.
+            Please consult your physician.
+          </small>
+        </div>
+        <div id="result-failure" class="hidden alert alert-warning">
+          Something bad happened!
+        </div>
+      </div>
     </div>
+    <script type="text/javascript">
+      function hide_results () {
+          res = document.getElementById("result")
+          for (child of res.children)
+              child.classList.add("hidden")
+      }
+      function show_element (elem) {
+          elem.classList.remove("hidden")
+          elem.scrollIntoView(false)
+      }
+      function show_progress () {
+          hide_results()
+          res = document.getElementById("result-progress")
+          show_element(res)
+      }
+      function show_result (result) {
+          hide_results()
+          res = document.getElementById("result-success")
+          text = document.getElementById("result-text")
+          text.innerText = result.label
+          show_element(res)
+      }
+      function show_error (xhr) {
+          console.log("XHR error: " + xhr.status + " " + xhr.statusText)
+          hide_results()
+          res = document.getElementById("result-failure")
+          show_element(res)
+      }
+      form = document.getElementById("iHeartForms")
+      form.onsubmit = function () {
+          data = new FormData(form)
+          xhr = new XMLHttpRequest()
+          xhr.onreadystatechange = function () {
+              if (xhr.readyState == 4) {
+                  if (xhr.status == 200) {
+                      result = JSON.parse(xhr.responseText)
+                      show_result(result)
+                  } else {
+                      show_error(xhr)
+                  }
+              }
+          }
+          xhr.open("POST", "/check")
+          xhr.setRequestHeader("Accept", "application/json")
+          xhr.send(data)
+          show_progress()
+          return false
+      }
+      reset = document.getElementById("reset")
+      reset.onclick = function () {
+          hide_results()
+          return true
+      }
+    </script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <!--

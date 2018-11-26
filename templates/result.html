@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+
+    <title>Analysis Results</title>
+  </head>
+  <body>
+    <div class="container">
+      <p><a href="/">&larr; Go back</a></P>
+      <div id="result">
+        <div id="result-success" class="hidden alert alert-success">
+          Our algorithm says: <strong id="result-text">{{result}}</strong>.
+          <br />
+          <small>
+            <strong>Disclaimer:</strong> This is not medical advice.
+          Please consult your physician.
+          </small>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
