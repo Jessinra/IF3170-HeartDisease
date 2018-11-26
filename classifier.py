@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import math
 import pickle
 
 class HeartDiseaseClassifier:
@@ -71,7 +72,7 @@ class HeartDiseaseClassifier:
         target_column = input_features[column]
 
         for i in target_column.index:
-            if target_column.loc[i] is np.NAN: 
+            if math.isnan(target_column.loc[i]):
 
                 input_feature = feature_column.loc[i]
                 imputed_value = imputer.predict([input_feature])[0]
