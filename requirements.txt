@@ -1,3 +1,4 @@
 scikit-learn==0.20.0
 pandas
 numpy
+Flask>=1.0
