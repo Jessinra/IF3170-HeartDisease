@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+
+    <style type="text/css">
+      .col-form-label { font-weight: bold; padding-top: 0; }
+      .hidden { display: none; }
+    </style>
+    <title>Heart Disease Analysis</title>
+  </head>
+  <body>
+    <div class="container mb-4 mt-4">
+      <div class="row">
+    	<h1 class="pl-2">Heart Disease Analysis</h1>
+      </div>
+      <form class="mt-4" id="iHeartForms" action="check" method="POST">
+    	<div class="form-group row">
+    	  <label for="age" class="col-sm-2 col-form-label">Age</label>
+    	  <div class="input-group col-sm-10 mb-4">
+    	    <input type="number" class="form-control" id="age" name="age" min="0" aria-describedby="ageInfo">
+    	    <div class="input-group-append">
+    	      <span id="ageInfo" class="input-group-text">years</span>
+    	    </div>
+    	  </div>
+    	</div>
+    	<fieldset class="form-group">
+    	  <div class="row">
+    	    <legend class="col-form-label col-sm-2 pt-0">Sex</legend>
+    	    <div class="col-sm-10 mb-4">
+    	      <div class="form-check">
+    		<input class="form-check-input" type="radio" name="sex" id="sexMale" value="1">
+    		<label class="form-check-label" for="sexMale">
+    		  Male
+    		</label>
+    	      </div>
+    	      <div class="form-check">
+    		<input class="form-check-input" type="radio" name="sex" id="sexFemale" value="0">
+    		<label class="form-check-label" for="sexFemale">
+    		  Female
+    		</label>
+    	      </div>
+    	    </div>
+    	  </div>
+    	</fieldset>
+    	<fieldset class="form-group">
+    	  <div class="row">
+    	    <legend class="col-form-label col-sm-2 pt-0">Chest Pain</legend>
+    	    <div class="col-sm-10 mb-4">
+    	      <div class="form-check">
+    		<input class="form-check-input" type="radio" name="chestPain" id="chestPain1" value="1">
+    		<label class="form-check-label" for="chestPain1">
+    		  Typical Angina
+    		</label>
+    	      </div>
+    	      <div class="form-check">
+    		<input class="form-check-input" type="radio" name="chestPain" id="chestPain2" value="2">
+    		<label class="form-check-label" for="chestPain2">
+    		  Atypical Angina
+    		</label>
+    	      </div>
+    	      <div class="form-check">
+    		<input class="form-check-input" type="radio" name="chestPain" id="chestPain3" value="3">
+    		<label class="form-check-label" for="chestPain3">
+    		  Non-anginal pain
+    		</label>
+    	      </div>
+    	      <div class="form-check">
+    		<input class="form-check-input" type="radio" name="chestPain" id="chestPain4" value="4">
+    		<label class="form-check-label" for="chestPain4">
+    		  Asymptomatic
+    		</label>
+    	      </div>
+    	    </div>
+    	  </div>
+    	</fieldset>
+    	<div class="form-group row">
+    	  <label for="bloodPressure" class="col-sm-2 col-form-label">Blood Pressure</label>
+    	  <div class="input-group col-sm-10 mb-4">
+    	    <input type="number" class="form-control" id="bloodPressure" name="bloodPressure" min="0" aria-describedby="bloodPressureInfo">
+    	    <div class="input-group-append">
+    	      <span id="bloodPressureInfo" class="input-group-text">
+                <abbr title="millimetres of mercury">mmHg</abbr>
+              </span>
+    	    </div>
+    	  </div>
+    	</div>
+    	<div class="form-group row">
+    	  <label for="serumCholesterol" class="col-sm-2 col-form-label">Serum Cholesterol</label>
+    	  <div class="input-group col-sm-10 mb-4">
+    	    <input type="number" class="form-control" id="serumCholesterol" name="serumCholesterol" min="0" aria-describedby="serumCholesterolInfo">
+    	    <div class="input-group-append">
+    	      <span id="serumCholesterolInfo" class="input-group-text">
+                <abbr title="milligrams per decilitre">mg/dl</abbr>
+              </span>
+    	    </div>
+    	  </div>
+    	</div>
+    	<fieldset class="form-group">
+    	  <div class="row">
+    	    <legend class="col-form-label col-sm-2 pt-0">Fasting Blood Sugar</legend>
+    	    <div class="col-sm-10 mb-4">
+    	      <div class="form-check">
+    		<input class="form-check-input" type="radio" name="bloodSugar" id="bloodSugarTrue" value="1">
+    		<label class="form-check-label" for="bloodSugarTrue">
+    		  &gt; 120 <abbr title="milligrams per decilitre">mg/dl</abbr>
+    		</label>
+    	      </div>
+    	      <div class="form-check">
+    		<input class="form-check-input" type="radio" name="bloodSugar" id="bloodSugarFalse" value="0">
+    		<label class="form-check-label" for="bloodSugarFalse">
+    		  &le; 120 <abbr title="milligrams per decilitre">mg/dl</abbr>
+    		</label>
+    	      </div>
+    	    </div>
+    	  </div>
+    	</fieldset>
+    	<fieldset class="form-group">
+    	  <div class="row">
+    	    <legend class="col-form-label col-sm-2 pt-0">Resting ECG</legend>
+    	    <div class="col-sm-10 mb-4">
+    	      <div class="form-check">
+    		<input class="form-check-input" type="radio" name="restingECG" id="restingECG0" value="0">
+    		<label class="form-check-label" for="restingECG0">
+    		  Normal
+    		</label>
+    	      </div>
+    	      <div class="form-check">
+    		<input class="form-check-input" type="radio" name="restingECG" id="restingECG1" value="1">
+    		<label class="form-check-label" for="restingECG1">
+    		  Having ST-T Wave Abnormality
+    		</label>
+    	      </div>
+    	      <div class="form-check">
+    		<input class="form-check-input" type="radio" name="restingECG" id="restingECG2" value="2">
+    		<label class="form-check-label" for="restingECG2">
+    		  Left Ventricular Hypertrophy
+    		</label>
+    	      </div>
+    	    </div>
+    	  </div>
+    	</fieldset>
+    	<div class="form-group row">
+    	  <label for="maxHeartRate" class="col-sm-2 col-form-label">Max. Heart Rate Achieved</label>
+    	  <div class="input-group col-sm-10 mb-4">
+    	    <input type="number" class="form-control" id="maxHeartRate" name="maxHeartRate" min="0" aria-describedby="maxHeartRateInfo">
+    	    <div class="input-group-append">
+    	      <span id="maxHeartRateInfo" class="input-group-text">
+                <abbr title="beats per minute">bpm</abbr>
+              </span>
+    	    </div>
+    	  </div>
+    	</div>
+    	<fieldset class="form-group">
+    	  <div class="row">
+    	    <legend class="col-form-label col-sm-2 pt-0">Exercise Induce Angina?</legend>
+    	    <div class="col-sm-10 mb-4">
+    	      <div class="form-check">
+    		<input class="form-check-input" type="radio" name="exerciseInduceAngina" id="exerciseInduceAnginaTrue" value="1">
+    		<label class="form-check-label" for="exerciseInduceAnginaTrue">
+    		  Yes
+    		</label>
+    	      </div>
+    	      <div class="form-check">
+    		<input class="form-check-input" type="radio" name="exerciseInduceAngina" id="exerciseInduceAnginaFalse" value="0">
+    		<label class="form-check-label" for="exerciseInduceAnginaFalse">
+    		  No
+    		</label>
+    	      </div>
+    	    </div>
+    	  </div>
+    	</fieldset>
+    	<div class="form-group row">
+    	  <label for="stDepression" class="col-sm-2 col-form-label">ST Depression Induced by Exercise Relative to Rest</label>
+    	  <div class="input-group col-sm-10 mb-4">
+    	    <input type="number" class="form-control" id="stDepression" name="stDepression" min="0">
+    	  </div>
+    	</div>
+    	<fieldset class="form-group">
+    	  <div class="row">
+    	    <legend class="col-form-label col-sm-2 pt-0">Peak Exercise ST Segment</legend>
+    	    <div class="col-sm-10 mb-4">
+    	      <div class="form-check">
+    		<input class="form-check-input" type="radio" name="peakExerciseST" id="peakExerciseST1" value="1">
+    		<label class="form-check-label" for="peakExerciseST1">
+    		  Upstoping
+    		</label>
+    	      </div>
+    	      <div class="form-check">
+    		<input class="form-check-input" type="radio" name="peakExerciseST" id="peakExerciseST2" value="2">
+    		<label class="form-check-label" for="peakExerciseST2">
+    		  Flat
+    		</label>
+    	      </div>
+    	      <div class="form-check">
+    		<input class="form-check-input" type="radio" name="peakExerciseST" id="peakExerciseST3" value="3">
+    		<label class="form-check-label" for="peakExerciseST3">
+    		  Downstopping
+    		</label>
+    	      </div>
+    	    </div>
+          </div>
+    	</fieldset>
+        <div class="form-group row">
+          <label for="maxHeartRate" class="col-sm-2 col-form-label">Number of Major Vessels Coloured by Flouroscopy</label>
+          <div class="input-group col-sm-10 mb-4">
+    	    <input type="number" class="form-control" id="vesselsColored" name="vesselsColored" min="0" max="3">
+          </div>
+        </div>
+        <fieldset class="form-group">
+          <div class="row">
+    	    <legend class="col-form-label col-sm-2 pt-0">Thalass&aelig;mia</legend>
+    	    <div class="col-sm-10 mb-4">
+    	      <div class="form-check">
+    	        <input class="form-check-input" type="radio" name="thal" id="thal3" value="3">
+    	        <label class="form-check-label" for="thal3">
+    	          Normal
+    	        </label>
+    	      </div>
+    	      <div class="form-check">
+    	        <input class="form-check-input" type="radio" name="thal" id="thal6" value="6">
+    	        <label class="form-check-label" for="thal6">
+    	          Fixed Defect
+    	        </label>
+    	      </div>
+    	      <div class="form-check">
+    	        <input class="form-check-input" type="radio" name="thal" id="thal7" value="7">
+    	        <label class="form-check-label" for="thal7">
+    	          Reversable Defect
+    	        </label>
+    	      </div>
+    	    </div>
+          </div>
+        </fieldset>
+        <div class="form-group row">
+          <div class="col-sm-6">
+    	    <button type="submit" class="btn btn-primary btn-block">Check!</button>
+          </div>
+          <div class="col-sm-6">
+    	    <button id="reset" type="reset" class="btn btn-outline-secondary btn-block">Reset</button>
+          </div>
+        </div>
+      </form>
+      <div id="result">
+        <div id="result-progress" class="hidden alert alert-primary">
+          <em>Working...</em>
+        </div>
+        <div id="result-success" class="hidden alert alert-success">
+          Our algorithm says: <strong id="result-text">{{result}}</strong>.
+          <br />
+          <small>
+            <strong>Disclaimer:</strong> This is not medical advice.
+            Please consult your physician.
+          </small>
+        </div>
+        <div id="result-failure" class="hidden alert alert-warning">
+          Something bad happened!
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      function hide_results () {
+          res = document.getElementById("result")
+          for (child of res.children)
+              child.classList.add("hidden")
+      }
+      function show_element (elem) {
+          elem.classList.remove("hidden")
+          elem.scrollIntoView(false)
+      }
+      function show_progress () {
+          hide_results()
+          res = document.getElementById("result-progress")
+          show_element(res)
+      }
+      function show_result (result) {
+          hide_results()
+          res = document.getElementById("result-success")
+          text = document.getElementById("result-text")
+          text.innerText = result.label
+          show_element(res)
+      }
+      function show_error (xhr) {
+          console.log("XHR error: " + xhr.status + " " + xhr.statusText)
+          hide_results()
+          res = document.getElementById("result-failure")
+          show_element(res)
+      }
+      form = document.getElementById("iHeartForms")
+      form.onsubmit = function () {
+          data = new FormData(form)
+          xhr = new XMLHttpRequest()
+          xhr.onreadystatechange = function () {
+              if (xhr.readyState == 4) {
+                  if (xhr.status == 200) {
+                      result = JSON.parse(xhr.responseText)
+                      show_result(result)
+                  } else {
+                      show_error(xhr)
+                  }
+              }
+          }
+          xhr.open("POST", "/check")
+          xhr.setRequestHeader("Accept", "application/json")
+          xhr.send(data)
+          show_progress()
+          return false
+      }
+      reset = document.getElementById("reset")
+      reset.onclick = function () {
+          hide_results()
+          return true
+      }
+    </script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!--
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        -->
+  </body>
+</html>
