@@ -39,3 +39,7 @@ def check():
         return render_template('result.html', result=label)
     else:
         return jsonify({"features": features_pretty, "output": output, "label": label})
+
+
+if __name__ == "__main__":
+    app.run()
